@@ -1,0 +1,60 @@
+\name{UBCRM-package}
+\alias{UBCRM-package}
+\alias{UBCRM}
+\docType{package}
+\title{
+UBCRM is a R package containing functions to simulate and conduct dose escalation phase I studies.
+}
+\description{
+Two designs are implemented in the package: the classical 3+3 and the Continual Reassessment Method.
+Simulations tools are also available to estimate the operating characteristics of the methods with several user-dependant options.
+}
+\details{
+\tabular{ll}{
+Package: \tab UBCRM\cr
+Type: \tab Package\cr
+Version: \tab 1.0\cr
+Date: \tab 2014-01-14\cr
+License: \tab public \cr
+}
+
+}
+\author{
+Benjamin Esterni, Baboukar Mane. Unite de Biostatistique et de Methodologie, Institut Paoli-Calmettes, Marseille, France.
+}
+\references{
+O'Quigley, J., Pepe, M., Fisher, L (1990). Continual reassessment method: A practical design for Phase I clinical trials in cancer. Biometrics 46, 33-48.
+
+O'Quigley J, Shen LZ. (1996). Continual Reassessment Method: a likelihood approach. Biometrics 52, 673-684
+
+Paoletti, X., Kramar, A. (2009). A comparison of model choices for the continual reassessment method in phase I cancer trials. Statistics in Medecine 28, 3012-3028.
+
+Chamorey Emmanuel. (2009). Methodologie des essais de phase precoce en cancerologie : evolution des schemas et apport de la pharmacologie. These
+
+Garret-Mayer Elizabeth. (2006). The continual reassessment method for dose-finding studies : a tutorial. Clinical Trials: 57-71.
+}
+\keyword{UBCRM}
+
+\examples{
+
+data<- CreData(4)
+prior<-c(.05,.1,.15,.2)
+
+# one study simulation
+simCrm(prior=prior, firstdose = 2, truerate = prior, cohortsize = 3, target = 1/3,
+nptmax = 18, nmaxmtd = 6, nmaxdose = 18, sd = 1.34, approach = "bayes", model = "power",
+method = "fpost", nextlevel = "ntarget", upskipping = TRUE, downskipping = FALSE,
+lastdose = NA, graphic = FALSE, seed = 20130110)
+
+#  N simulations with CRM
+# power model, no up skipping, start at dose 2
+res1<- ssimCrm(prior=prior, 100, firstdose = 2, truerate = prior, cohortsize = 3,
+target = 1/3, nptmax = 18, nmaxmtd = 6, nmaxdose = 18, sd = 1.34, approach = "bayes",
+method = "fpost", model = "power", nextlevel = "ntarget", upskipping = TRUE,
+downskipping = FALSE, r = 2, seed=20130110)
+res1
+
+# simulations with 3+3 design
+res2<- ssim3p3(truerate=prior, 100, r = 2, seed=20130110)
+res2
+}
