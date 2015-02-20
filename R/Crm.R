@@ -1,6 +1,6 @@
 Crm <-
 function(Dk, prior, target = 1/3, nptmax = 24, nmaxmtd = 6, nmaxdose = nptmax, sd = 1.34, approach = "bayes", model = "power", method = "fpost", nextlevel = "ntarget", upskipping = F, downskipping = F, lastdose = NA){#browser()
-# methode bayesienne
+# Bayesian method
 if (approach == "bayes") {
 if (upskipping | downskipping){
 if(!lastdose %in% Dk$dose){
@@ -8,9 +8,9 @@ stop("lastdose specified not available.")
 }
 }
 mtd <- NA
-# méthode 1: estimation de la moyenne de a puis utilisation de psi:
+# Method 1: estimation of the mean of a then use of psi:
 if (method == "fpost"){
-# modele puissance
+# Power model
 if (model == "power") {
 sgl <- prior
 	norm<- integrate(function(a){Lp(a,data=Dk,sgl=sgl)*fp(a, sd)},-Inf,Inf)$value
@@ -19,7 +19,7 @@ sgl <- prior
 p_post<- psip(sgl,a_hat)
 }
 
-# modele tangent
+# Tangent model
 else if (model == "tangent") {
 sgl <- ait1(prior)
 	norm<- integrate(function(a){Lt(a,data=Dk,sgl=sgl)*ft(a)},0,Inf)$value
@@ -28,7 +28,7 @@ sgl <- ait1(prior)
 p_post<- psit(sgl,a_hat)
 }
 
-# modele logistique
+# Logisitic model
 else if (model == "logistic") {
 sgl <- ail1(prior)
 	norm<- integrate(function(a){Ll(a,data=Dk,sgl=sgl)*ft(a)},0,Inf)$value
@@ -40,10 +40,10 @@ else
 stop("model specified not available.")
 }
 
-# méthode 2a: estimation de la moyenne de la probabilité a posteriori de DLT
-## estimation proba sans calcul singletons
+# Method 2a: estimation of the mean of the a posteriori probability to do a DLT
+## Probability estimation without singleton calculations
 else if (method == "ppostp") {
-# modele puissance
+# Power model
 if (model == "power") {
 psi <- psip
 sgl <- prior
@@ -52,7 +52,7 @@ sgl <- prior
 p_post<- sapply(sgl,FUN = function(s){integrate(function(a){psip(s,a)*f_post(a)},-Inf,Inf)$value})
 }
 
-# modele tangent
+# Tangent model
 else if (model == "tangent") {
 sgl <- ait1(prior)
 	norm<- integrate(function(a){Lt(a,data=Dk,sgl=sgl)*ft(a)},0,Inf)$value
@@ -60,7 +60,7 @@ sgl <- ait1(prior)
 p_post <- sapply(sgl,FUN = function(s){integrate(function(a){psit(s,a)*f_post(a)},0,Inf)$value})
 }
 
-# modele logistique
+# Logistic model
 else if (model == "logistic") {
 sgl <- ail1(prior)
 	norm<- integrate(function(a){Ll(a,data=Dk,sgl=sgl)*fl(a)},0,Inf)$value
@@ -71,10 +71,10 @@ else
 stop("model specified not available.")
 }
 
-# méthode 2a: estimation de la moyenne de la probabilité a posteriori de DLT
-## estimation proba avec calcul des singletons
+# Method 2a: estimation of the mean of the a posteriori probability to do a DLT
+## Probability estimation with singleton calculations
 else if (method == "pposts") {
-# modele puissance
+# Power model
 if (model == "power") {
 sgl <- aip(prior, sd = sd)
 	norm<- integrate(function(a){Lp(a,data=Dk,sgl=sgl)*fp(a, sd)},-Inf,Inf)$value
@@ -82,16 +82,16 @@ sgl <- aip(prior, sd = sd)
 p_post<- sapply(sgl,FUN = function(s){integrate(function(a){psip(s,a)*f_post(a)},-Inf,Inf)$value})
 }
 
-# modele tangent
+# Tangent model
 else if (model == "tangent") {
 sgl <- ait2(prior)
-# méthode 2: estimation de la moyenne de la probabilité a posteriori de DLT
+# Method 2: estimation of the mean of the a posteriori probability to do a DLT
 	norm<- integrate(function(a){Lt(a,data=Dk,sgl=sgl)*ft(a)},0,Inf)$value
 	f_post<- function(a){Lt(a,data=Dk,sgl=sgl)*ft(a)/norm}
 p_post <- sapply(sgl,FUN = function(s){integrate(function(a){psit(s,a)*f_post(a)},0,Inf)$value})
 }
 
-# modele logistique
+# Logistic model
 else if (model == "logistic") {
 sgl <- ail2(prior)
 	norm<- integrate(function(a){Ll(a,data=Dk,sgl=sgl)*fl(a)},0,Inf)$value
@@ -105,12 +105,12 @@ else
 stop("method specified not available.")
 
 
-# option nextdose
-## inferieur au target
+# Option nextdose
+## Inferior to target
 if (nextlevel == "utarget"){
 nextdose <- ifelse(p_post[1] < target, Dk$dose[max(which(p_post < target))], NA)
 }
-## proche du target en distance euclidienne
+## Near target with euclidian distance
 else if (nextlevel == "ntarget"){
 nextdose <- Dk$dose[which.min(abs(p_post - target))]
 }
@@ -118,14 +118,14 @@ else
 stop("nextlevel specified not available.")
 
 
-# option d'escalade et de desecalade de dose
+# Dose escalation et de-escalation options
 if (upskipping)
 nextdose <- ifelse(nextdose > lastdose, lastdose + 1, nextdose)
 if (downskipping)
 nextdose <- ifelse(nextdose < lastdose, lastdose - 1, nextdose)
 }
 
-# maximum de vraisemblance
+# Likelihood maximum
 if (approach == "mle") {
 mtd <- NA
 npt<- Dk$npt
@@ -140,7 +140,7 @@ sgl <- prior
 a_hat <- optimize(function(a){Lp(a,Dk,sgl)}, c(-10, 10), tol = 1e-04, maximum = TRUE)$max
 p_post <- psip(sgl,a_hat)
 
-# nextdose
+# Next dose
 if (nextlevel == "utarget"){
 nextdose <- ifelse(p_post[1] < target, Dk$dose[max(which(p_post < target))], NA)
 }
@@ -159,7 +159,7 @@ p_post <- prior
 }
 }
 
-# critere d'arret
+# Stop criterion
 if (sum(Dk$npt) >= nptmax | !(nextdose %in% Dk$dose) | max(Dk$npt) == nmaxdose){
 mtd <- ifelse(nextdose == (length(Dk$dose) + 1), lastdose, nextdose)
 nextdose <- NA

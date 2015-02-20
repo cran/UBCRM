@@ -4,11 +4,11 @@ idx <- which(data$dose == lastdose)
 ndlt <- data$ndlt[idx]
 npt <- data$npt[idx]
 mtd <- NA
-# cas de premiere etude sur la dose
+# First study of the dose
 if(npt == 3){
 nextdose <- ifelse(ndlt == 0, lastdose + 1, ifelse(ndlt > 1, NA, lastdose))
 }
-# cas d'etude complementaire sur la dose
+# Complementary study of the dose
 if(npt == 6){
 nextdose <- ifelse(ndlt == 1, lastdose + 1, NA)
 }

@@ -1,7 +1,7 @@
 sim3p3 <-
 function(truerate, seed=NULL){
 if (!is.null(seed)) {set.seed(seed)}
-# prob = vecteur de probabilite
+# prob = probability vector
 data <- CreData(length(truerate))
 nextdose <- 1
 while (nextdose %in% data$dose) {

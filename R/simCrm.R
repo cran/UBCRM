@@ -1,7 +1,7 @@
 simCrm <-
 function(prior, firstdose = NA, truerate = prior, cohortsize = 3, target = 1/3, nptmax = 24, nmaxmtd = nptmax, nmaxdose = nptmax, sd = 1.34, approach = "bayes", model = "power", method = "fpost", nextlevel = "ntarget", upskipping = F, downskipping = F, lastdose = NA, graphic = F, seed=NULL){#browser()
 if (!is.null(seed)) {set.seed(seed)}
-# prob = vecteur de probabilite 
+# prob = probability vector
 data <- CreData(length(prior))
 if (graphic == T)
 mprob <- matrix(prior, length(prior))

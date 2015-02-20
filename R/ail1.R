@@ -1,6 +1,6 @@
 ail1 <-
 function(p_prior, a = 1){
-# calculs des singletons de sorte que psi(s, 1) = p_prior
+# Singletons calculations in order that psi(s, 1) = p_prior
 fu<- function(s,p_prior){sapply(s,FUN= function(s){psil(s,a) - p_prior})}
 sgl<- vector()
 for (i in 1:length(p_prior)){

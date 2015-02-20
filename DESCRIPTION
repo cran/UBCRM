@@ -1,14 +1,16 @@
 Package: UBCRM
 Type: Package
-Title: UBCRM is a R package containing functions to simulate and
-        conduct dose escalation phase I studies.
-Version: 1.0
-Date: 2014-01-14
+Title: Functions to Simulate and Conduct Dose-Escalation Phase I
+        Studies
+Version: 1.0.1
+Date: 2015-02-20
 Author: Benjamin Esterni with contribution from Baboukar Mane
-Maintainer: Benjamin Esterni <esternib@ipc.unicancer.fr>
-Description: Two designs are implemented in the package: the classical 3+3 and the Continual Reassessment Method. Simulations tools are also available to estimate the operating characteristics of the methods with several user-dependant options
+Maintainer: Christophe Zemmour <zemmourc@ipc.unicancer.fr>
+Description: Two Phase I designs are implemented in the package: the classical 3+3 and the Continual Reassessment Method. Simulations tools are also available to estimate the operating characteristics of the methods with several user-dependent options.
 License: GPL (>= 2)
-Packaged: 2014-01-20 12:58:21 UTC; ESTERNIB
+Packaged: 2015-02-20 08:41:40 UTC; SFUMATOP
 NeedsCompilation: no
+X-CRAN-Comment: Archived on 2014-08-18 as maintainer address
+        <esternib@ipc.unicancer.fr> bounced.
 Repository: CRAN
-Date/Publication: 2014-01-20 15:16:39
+Date/Publication: 2015-02-20 10:31:30
