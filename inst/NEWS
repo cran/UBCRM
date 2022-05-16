@@ -1,5 +1,19 @@
 Package: UBCRM
-Version: 1.0.1
+Version: 1.0.2
+
+---------------------------------------------------------------------------------
+CHANGES TO RELEASE 1.0.2
+---------------------------------------------------------------------------------
+RELEASE 1.0.2
+
+Maintainer and syntactic changes
+Adding global function definitions by adding
+     importFrom("grDevices", "gray", "palette")
+     importFrom("graphics", "abline", "lines")
+     importFrom("stats", "integrate", "optimize", "rbinom", "uniroot")
+     importFrom("utils", "setTxtProgressBar", "txtProgressBar")
+to the NAMESPACE file
+Please report bugs to christophe.zemmour@gmail.com
 
 ---------------------------------------------------------------------------------
 CHANGES TO RELEASE 1.0.1

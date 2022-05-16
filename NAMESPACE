@@ -1,1 +1,5 @@
 exportPattern("^[[:alpha:]]+")
+importFrom("grDevices", "gray", "palette")
+importFrom("graphics", "abline", "lines")
+importFrom("stats", "integrate", "optimize", "rbinom", "uniroot")
+importFrom("utils", "setTxtProgressBar", "txtProgressBar")
